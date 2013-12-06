@@ -1,0 +1,94 @@
+The Challenge
+
+In this challenge, you'll implement an interactive fiction game which mimics the first few rooms of the grandaddy of all text adventures, Collossal Cave. In order to succeed, your program will need to read in a "story" in the form of a simple DSL, interpret user commands, and track the player's progress and inventory. If you get all that working without too much trouble, I've also included an "extra credit" challenge to implement basic "puzzle" functionality in the game.
+
+Here's a sample interaction with a finished implementation of the challenge:
+
+     $ bin/play.rb data/petite_cave.if
+     You are standing at the end of a road before a small brick building. Around
+     you is a forest. A small stream flows out of the building and down a gully.
+     > north
+     There is no way to go in that direction.
+     > east
+     You are inside a building, a well house for a large spring.
+     There are some keys on the ground here.
+     There is food here.
+     There is a shiny brass lamp nearby.
+     There is a bottle of water here.
+     > get keys
+     OK
+     > get food
+     OK
+     > get lantern
+     OK
+     > get water
+     OK
+     > inventory
+     You are currently holding the following:
+     Set of keys
+     Tasty food
+     Brass lantern
+     Small bottle
+     > west
+     You're at end of road again.
+     > s
+     You are in a valley in the forest beside a stream tumbling along a rocky bed.
+     > s
+     At your feet all the water of the stream splashes into a 2-inch slit in the
+     rock. Downstream the str eambed is bare rock.
+     > s
+     You are in a 20-foot depression floored with bare dirt. Set into the dirt is
+     a strong steel grate mo unted in concrete. A dry streambed leads into the
+     depression.
+     > unlock grate
+     The grate is now unlocked
+     > enter
+     You are in a small chamber beneath a 3x3 steel grate to the surface. A low
+     crawl over cobbles leads inward to the west.
+Here's a sample of the story DSL which defines the adventure:
+
+ Room @end_of_road:
+   Title: at end of road again
+   Description:
+     You are standing at the end of a road before a small brick building.
+     Around you is a forest.  A small stream flows out of the building and
+     down a gully.
+   Exits:
+     east to @building
+     enter to @building
+     south to @valley
+
+ Room @building:
+   Title: inside building
+   Description:
+     You are inside a building, a well house for a large spring.
+   Exits:
+     west to @end_of_road
+     exit to @end_of_road
+   Objects:
+     $keys
+     $lamp
+     $food
+     $water_bottle
+
+ Object $keys:
+   Terms: Set of keys, keys
+   Description: There are some keys on the ground here.
+
+ Object $lamp:
+   Terms: Brass lantern, brass lamp, lamp, lantern
+   Description: There is a shiny brass lamp nearby.
+The full story file can be found at =data/petite_cave.if=. This format is one I've invented for this challenge. There is no formal specification for it. Your program is only required to be able to parse the provided file petite_cave.if in order to satisfy the challlenge.
+
+Getting Started
+
+Here are steps for getting started on your entry:
+Clone the Github project avdi/rpcfn-interactive-fiction: =git clone git://github.com/avdi/rpcfn-interactive-fiction.git=
+Install Cucumber, if you don't have it already: =gem install cucumber=
+Run the acceptance tests by running Rake: =cd rpcfn-interactive-fiction; rake=
+
+You should see failure messages. That's because the implementation hasn't been written yet! Making the tests pass is up to you.
+
+I've provided a skeleton =bin/play.rb= to start you off. Edit that file to implement your interactive fiction engine.
+Drive your development by running =rake= periodically to see what's left to implement.
+Make sure to manually test your implementation by running it standalone: =ruby bin/play.rb data/petite_cave.if=
